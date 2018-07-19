@@ -1,0 +1,106 @@
+//------------------------------------------------------------------------------
+// General Utils
+
+@function clamp($n, $min, $max) {
+  @return min($max, max($min, $n));
+}
+
+@function strip-units($x) {
+  @return ($x / ($x * 0 + 1));
+}
+
+
+
+//------------------------------------------------------------------------------
+// Lists
+
+// Convert an 'arglist' (which can't be nth'd, etc...) to a normal list
+@function unarglist($arglist) {
+  @return slice($arglist);
+}
+
+// Wrap a value in a list
+// TODO: common name. possible conflict?
+@function list($val) {
+  @return append((), $val);
+}
+
+@function prepend($list, $val, $separator:comma) {
+  @return join(list($val), $list, $separator:$separator);
+}
+
+// Returns all but the last element of $list
+@function drop-last($list) {
+  @return slice($list, 1, -1);
+}
+
+
+
+//------------------------------------------------------------------------------
+// HSB
+
+@function hsb($h, $s, $b, $a:1) {
+  // TODO: this should have tests to demonstrate correctness
+  @if $b == 0 {
+    @return rgba(#000, $a);
+  } @else {
+    // equations from http://codeitdown.com/hsl-hsb-hsv-color/
+    $s:$s/100; $b:$b/100;
+    $hsl-l: ($b * (2 - $s)) / 2;
+    $hsl-s: ($b * $s) / (1 - abs(2 * $hsl-l - 1));
+    @return hsla($h, $hsl-s * 100, $hsl-l * 100, $a);
+  }
+}
+
+@function hsb-components($color) {
+  // TODO: this should have tests to demonstrate correctness
+  // equations from http://codeitdown.com/hsl-hsb-hsv-color/
+  $hsl-l: strip-units(lightness($color)) / 100;
+  $hsl-s: strip-units(saturation($color)) / 100;
+  $hsb-b: (((2 * $hsl-l) + ($hsl-s * (1 - abs(2 * $hsl-l - 1)))) / 2);
+  $hsb-s: (2 * ($hsb-b - $hsl-l)) / $hsb-b;
+
+  @return (h: hue($color),
+           s: $hsb-s * 100,
+           b: $hsb-b * 100);
+}
+
+//
+// HSB is an alternative to HSL which often produces less surprising
+// results. It's used by a number of apps like Sketch, Figma, etc...
+
+// Adjusts any/all of the hue, saturation, and brightness of a color.
+// the *-by arguments adjust by a relative amount, while
+// the *-to arguments adjust to an exact value
+// 
+// Hue        ranges from 0-360, inclusive, circles around
+// Saturation ranges from 0-100, inclusive, constrained
+// Brightness ranges from 0-100, inclusive, constrained
+//
+//  hsb-adjust(hsb(355, 99, 99), $h-by:10, $s-by:10, $b-by:10)
+//    => hsb(5, 100, 100)
+//
+//  hsb-adjust(hsb(5, 5, 5), $h-by:-10, $s-by:-10, $b-by:-10)
+//    => hsb(355, 0, 0)
+//
+//  hsb-adjust($myColor, $h-to:361, $s-to:101, $b-to:-10)
+//    => hsb(1, 100, 0)
+//
+@function hsb-adjust($color, $h-by:0,    $s-by:0,    $b-by:0,
+                             $h-to:null, $s-to:null, $b-to:null) 
+{
+  $hsb: hsb-components($color);
+  $h: if($h-to, $h-to, (map-get($hsb, h) + $h-by) % 360);
+  $s: if($s-to, $s-to, clamp(map-get($hsb, s) + $s-by, 0, 100));
+  $b: if($b-to, $b-to, clamp(map-get($hsb, b) + $b-by, 0, 100));
+  $a: alpha($color);
+
+  @return rgba(hsb($h, $s, $b), $a);
+}
+
+
+@function alpha-adjust($color, $by:0, $to:null) {
+  $alpha: alpha($color);
+  $newAlpha: if($to, $to, ($alpha + $by));
+  @return rgba($color, $newAlpha);
+}

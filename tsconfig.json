@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+      "outDir": "./dist/",
+      "sourceMap": true,
+      "module": "commonjs",
+      "target": "es6",
+      "jsx": "react",
+      "allowJs": true,
+      "experimentalDecorators": true,
+      "esModuleInterop": true,
+
+      "lib": ["es2017", "dom", "dom.iterable"],
+
+      "noImplicitThis": true,
+      "strictNullChecks": true,
+
+      "baseUrl": ".",
+      "paths": {
+          "~/*": ["src/*"],
+          "#/*": ["src/style/*"],
+          "@/*": ["src/components/*"]
+      }
+  },
+  "include": [
+      "./src/**/*",
+      "./test/**/*"
+  ]
+}

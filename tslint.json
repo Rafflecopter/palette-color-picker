@@ -1,0 +1,4 @@
+{
+  "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
+  "no-console":  [true, "log"]
+}

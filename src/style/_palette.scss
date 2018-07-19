@@ -1,0 +1,166 @@
+//                                                                            //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//                            Palette Sass Toolkit                            //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//                                                                            //
+
+
+// Convert a positive or negative index into a positive one
+@function posind($list, $i) {
+  @return if($i >= 0, $i, length($list) - ($i + 1));
+}
+
+//
+// Returns the sub-list from $start, up to (but excluding) $end
+//
+@function slice($list, $start:1, $end:null) {
+  $start: posind($list, $start);
+  $end: if($end, posind($list, $end), length($list)+1);
+
+  $result: ();
+
+  @for $i from $start to $end {
+    $result: append($result, nth($list, $i));
+  }
+
+  @return $result;
+}
+
+
+//------------------------------------------------------------------------------
+//-- Selector Generation --
+//
+// These functions make it simple to generate complex selectors for
+// component children and modifiers without relying on &, which is
+// often too brittle. Since these functions just generate selectors,
+// they can be used almost anywhere a string can, via interpolation.
+
+//
+// Returns the substring before the 1st instance of any of the strings in $any-of
+//
+@function _p_substr-before($str, $any-of...) {
+  $lowest: -1;
+  @each $splitter in $any-of {
+    $index: str-index($str, $splitter);
+    @if ($index and ($lowest==-1 or $index<$lowest)) { $lowest: $index; }
+  }
+  @return str-slice($str, 1, $lowest);
+}
+
+//
+// Strips the leading "." from a class selector
+//
+@function _p_component-name($class-selector) {
+  @return str-slice($class-selector, 2);
+}
+
+
+//
+// If the function was called from inside a top-level component (either 
+// nested, or in a fully-expanded selector), return its class.
+// We memoize since this function will typically be called many times
+// in sequence inside the same component.
+//
+$_p_this-component_: null; // cache
+@function _p_this-component() {
+  $this: "#{&}";
+  @if ($_p_this-component_ == null) or (str-index($this, $_p_this-component_) != 1) {
+    // cache miss
+    $_p_this-component_: _p_substr-before($this, "-", ":", " ", "+", ">", "~") !global;
+  }
+  @return $_p_this-component_;
+}
+
+
+//
+// Returns a selector for the current component with additional
+// suffix(es) separated by separator. If multiple $names,
+// the returned selector will be conjoined (that is: more specific)
+// For example: 
+//   .Comp {
+//      _p_component-selector("-", foo, bar) => .Comp-foo.Comp-bar
+//   }
+//
+@function _p_component-selector($separator, $names...) {
+  $comp: _p_this-component();
+  $start: if("#{&}" == $comp, "&", $comp);
+  $cls: $start + $separator + nth($names, 1);
+  @each $name in slice($names, 2) {
+    $cls: $cls + $comp + $separator + $name;
+  }
+  @return $cls;
+}
+
+// Shortcuts for common _p_component-selector's
+@function child($names...) { @return _p_component-selector("-", $names...); }
+@function mod($names...) { @return _p_component-selector("--", $names...); }
+@function not-mod($names...) { @return ":not("+_p_component-selector("--", $names...)+")"; }
+
+
+//------------------------------------------------------------------------------
+//-- Component Configuration --
+//
+// The following functions are the "configuration" system for
+// local component config variables. Instead of having a bunch
+// of global variables like ${_p_component-name}--{variable-name},
+// we maintain a map for each component. This gives us some
+// nice perks:
+//  - If we change the component name, we don't have to change
+//    a bunch of variable names scattered through the code.
+//  - We can make a convenience helper for getting a local
+//    config variable inside a top-level component.
+//  - We can easily define default config and allow it to be
+//    overridden in different places.
+//
+
+// The config variables
+$_p_component-config_: ();
+
+//
+// Overrides (or initially sets) config vars for a given component.
+// $component-name is optional, and will be inferred if not provided.
+//
+@mixin config($component-name, $vars:null) {
+  @if $vars == null {
+    $vars: $component-name;
+    $component-name: _p_component-name(_p_this-component());
+  }
+  $config: ($component-name: $vars);
+  $_p_component-config_: map-merge($_p_component-config_, $config) !global;
+}
+
+//
+// Sets some config vars for a given component, only if they haven't
+// yet been set.
+// $component-name is optional, and will be inferred if not provided.
+//
+@mixin default-config($component-name, $vars:null) {
+  @if $vars == null {
+    $vars: $component-name;
+    $component-name: _p_component-name(_p_this-component());
+  }
+  $existing-config: map-get($_p_component-config_, $component-name) or ();
+  $config: ($component-name: map-merge($vars, $existing-config));
+  $_p_component-config_: map-merge($_p_component-config_, $config) !global;
+}
+
+//
+// Returns the value of a config variable for a given component.
+// $component-name is optional and will be inferred if not provided.
+//
+@function var($component-name, $var-name:null) {
+  @if ($var-name == null) { 
+    $var-name: $component-name; 
+    $component-name: _p_component-name(_p_this-component());
+  }
+  $vars: map-get($_p_component-config_, $component-name);
+  @if $vars == null { 
+    @error "Component #{$component-name} has no config variables.";
+  }
+  @if not map-has-key($vars, $var-name) {
+    @error "Variable #{$var-name} is not defined for component #{$component-name}.";
+  }
+  $val: map-get($vars, $var-name);
+  @return if($vars, map-get($vars, $var-name), null);
+}
+

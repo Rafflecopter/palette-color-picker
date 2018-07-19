@@ -1,0 +1,37 @@
+//------------------------------------------------------------------------------
+// Color Definitions :
+
+$black: #141516;
+
+$grey-ghost:        #f0f2f4;
+$grey-border--light:  hsb-adjust($grey-ghost, $b-by:-12.5);
+$grey-border--dark:   mix(#fff, $black, 75%);
+
+$blue:              #0095FF;
+$blue-mute:         #6D9EE1;
+$blue-text:           hsb-adjust($blue, $b-by:-18, $h-by:4);
+$orange:            #FF903C;
+
+
+// //------------------------------------------------------------------------------
+// // Font / Type Definitions :
+
+$font-system: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$font-primary: $font-system;
+$font-mono:   "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace;
+
+
+//------------------------------------------------------------------------------
+// Component Vars
+
+// --- FORM ELEMENTS
+$Input-border-color: $grey-border--dark;
+%Input-label {
+  font-size: 10px;
+  opacity: 0.5;
+}
+
+// Color Editor
+$ColorEditor-Preview-pad: 3px;
+
+$ColorEditor-pad: 10px;

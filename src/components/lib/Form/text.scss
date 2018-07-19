@@ -1,0 +1,36 @@
+@import "~/base.scss";
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+.Text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  &-prefix {
+    padding: 2px 3px;
+    background: $grey-ghost;
+    border: 1px solid $Input-border-color;
+    border-right: none;
+    border-radius: 2px 0 0 2px;
+    font-size: 10px;
+  }
+
+  &-label {
+    @extend %Input-label;
+  }
+
+  &.Text--has-prefix {
+
+    .Text-input {
+      display: flex;
+    }
+
+    input {
+      border: 1px solid $Input-border-color;
+      border-radius: 0 2px 2px 0;
+    }
+  }
+}
