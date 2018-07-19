@@ -13,12 +13,13 @@ import Tooltip from '~/components/lib/Tooltip'
 interface Props {
   swatches: SwatchList
   label?: string
+  tooltips?: boolean
   update?: Function
 }
 
 export type ColorSwatch = {
-  name: string,
-  value: string,
+  name: string
+  value: string
   mode: 'hex' | 'rgb' | 'hsl'
 }
 
@@ -39,11 +40,13 @@ export
             <ul className={cls(this, 'vars')}>
               {this.props.swatches.map((swatch) => (
                 <li key={nanoid()}>
-                  <Tooltip label={swatch.name} length='small' align='center' placement='bottom'>
-                    <div className={cls(this, 'color')}
-                      style={{ background: `${swatch.value}` }}
-                      onClick={() => this.onChange(swatch)}></div>
-                  </Tooltip>
+                  {this.props.tooltips !== false ? (
+                    <Tooltip label={swatch.name} length='small' align='center' placement='bottom'>
+                      {this.renderSwatch(swatch)}
+                    </Tooltip>
+                  ) : (
+                      <React.Fragment>{this.renderSwatch(swatch)}</React.Fragment>
+                    )}
                 </li>
               ))}
             </ul>
@@ -53,7 +56,18 @@ export
     )
   }
 
+  renderSwatch = (swatch) => {
+    return (
+      <React.Fragment>
+        <div className={cls(this, 'color')}
+          style={{ background: `${swatch.value}` }}
+          onClick={() => this.onChange(swatch)}></div>
+      </React.Fragment>
+    )
+  }
+
   onChange = (swatch) => {
+    console.log('rendery swatcher', swatch)
     this.props.update ? this.props.update(swatch.value, swatch.mode) : null
   }
 }

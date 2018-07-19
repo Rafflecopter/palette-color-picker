@@ -26,6 +26,7 @@ interface Props {
   showSwatches?: boolean
   swatches?: SwatchList
   swatchesLabel?: string
+  swatchesTooltip?: boolean
 
   styles?: boolean
 }
@@ -76,7 +77,7 @@ export
       'isLight': this.state.color.isLight(),
       'isDark': this.state.color.isDark()
     }
-
+    
     return (
       <div className={cls(this, mods)}>
         {this.props.showInspector !== false &&
@@ -96,7 +97,7 @@ export
         }
         {this.props.showSwatches !== false && this.props.swatches &&
           <div className={cls(this, 'swatches')}>
-            <ColorSwatches swatches={this.props.swatches} label={this.props.swatchesLabel} />
+            <ColorSwatches swatches={this.props.swatches} tooltips={this.props.swatchesTooltip} label={this.props.swatchesLabel} />
           </div>
         }
       </div>

@@ -3,9 +3,9 @@ import './style/reset.scss'
 import * as React from 'react'
 import { render } from 'react-dom'
 
-import { ColorMode, ColorPicker } from '~/components/color'
+import { ColorPicker } from '~/components/color'
 
-import { SwatchList, ColorSwatches } from '~/components/color/swatches'
+import { SwatchList } from '~/components/color/swatches'
 
 
 interface Props {}
