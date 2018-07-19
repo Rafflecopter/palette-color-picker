@@ -1,7 +1,9 @@
+@import "~/base.scss";
+
 //------------------------------------------------------------------------------
 // Abstract
 
-$tooltip-bg:             fade-out(#111, .1);
+$tooltip-bg:             $grey-ghost;
 $tooltip-base-size:      8px;
 $tooltip-arrow-height:   6px;
 
@@ -60,7 +62,7 @@ $tooltip-arrow-height:   6px;
   transition: all .18s ease-out .18s;
 }
 
-@mixin tooltip($bg:$tooltip-bg, $color:white, $fs:$tooltip-base-size + 2, $mobile:true, $activate:hover){
+@mixin tooltip($bg:$tooltip-bg, $color:$black, $fs:$tooltip-base-size + 2, $mobile:true, $activate:hover){
   $sizes: small, medium, large, xlarge;
   position: relative;
 

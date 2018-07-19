@@ -101,10 +101,10 @@ module.exports = {
 
   plugins: [
 
-    new ExtractTextPlugin({ filename: 'app.css' }),
+    new ExtractTextPlugin({ filename: 'picker.css' }),
 
     new HtmlWebpackPlugin({
-      title: 'Palette',
+      title: 'Palette Color Picker',
       template: SRC('index.html')
     }),
   ]

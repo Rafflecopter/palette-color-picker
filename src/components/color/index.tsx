@@ -27,8 +27,6 @@ interface Props {
   swatches?: SwatchList
   swatchesLabel?: string
   swatchesTooltip?: boolean
-
-  styles?: boolean
 }
 
 interface State {
@@ -59,7 +57,7 @@ export
 
   componentDidMount() {
     this.setState({ mode: this.state.color._format })
-    this.setColorString(this.state.color._format)
+    this.setColorString(this.state.color, this.state.color._format)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -77,7 +75,7 @@ export
       'isLight': this.state.color.isLight(),
       'isDark': this.state.color.isDark()
     }
-    
+
     return (
       <div className={cls(this, mods)}>
         {this.props.showInspector !== false &&
@@ -97,7 +95,7 @@ export
         }
         {this.props.showSwatches !== false && this.props.swatches &&
           <div className={cls(this, 'swatches')}>
-            <ColorSwatches swatches={this.props.swatches} tooltips={this.props.swatchesTooltip} label={this.props.swatchesLabel} />
+            <ColorSwatches swatches={this.props.swatches} tooltips={this.props.swatchesTooltip} label={this.props.swatchesLabel} update={this.onChange} />
           </div>
         }
       </div>
@@ -109,23 +107,22 @@ export
     mode = mode ? mode : this.state.mode
 
     this.setState({ color, mode })
-
-    this.setColorString(mode)
+    this.setColorString(color, mode)
   }
 
-  setColorString = (mode?: string) => {
+  setColorString = (color, mode) => {
     const exp = () => {
       switch (mode || this.state.mode) {
         case 'rgb':
-          return (this.state.color.toRgbString())
+          return (color.toRgbString())
         case 'hsl':
-          return (this.state.color.toHslString())
+          return (color.toHslString())
         case 'hex':
         default:
-          if (this.state.color.getAlpha() < 1) {
-            return (this.state.color.toHex8String())
+          if (color.getAlpha() < 1) {
+            return (color.toHex8String())
           } else {
-            return (this.state.color.toHexString())
+            return (color.toHexString())
           }
       }
     }

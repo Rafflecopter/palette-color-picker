@@ -67,7 +67,6 @@ export
   }
 
   onChange = (swatch) => {
-    console.log('rendery swatcher', swatch)
     this.props.update ? this.props.update(swatch.value, swatch.mode) : null
   }
 }
