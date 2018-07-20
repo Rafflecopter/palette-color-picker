@@ -1,6 +1,6 @@
 import './tooltip.scss'
 import * as React from 'react'
-import cls from '~/lib/util/className'
+import cls from '../util/className'
 
 
 //------------------------------------------------------------------------------

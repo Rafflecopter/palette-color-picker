@@ -1,12 +1,12 @@
 import './picker.scss'
 import * as React from 'react'
-import cls from '~/lib/util/className'
+import cls from './util/className'
 import Color from 'tinycolor2'
 
-import ColorInspector from '~/lib/_subcomponents/color/inspector'
-import ColorSliders from '~/lib/_subcomponents/color/sliders'
-import ColorValues from '~/lib/_subcomponents/color/values'
-import { SwatchList, ColorSwatches } from '~/lib/_subcomponents/color/swatches'
+import ColorInspector from './_subcomponents/color/inspector'
+import ColorSliders from './_subcomponents/color/sliders'
+import ColorValues from './_subcomponents/color/values'
+import { SwatchList, ColorSwatches } from './_subcomponents/color/swatches'
 
 
 //------------------------------------------------------------------------------

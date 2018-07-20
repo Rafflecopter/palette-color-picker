@@ -1,10 +1,10 @@
 import './swatches.scss'
 import * as React from 'react'
-import cls from '~/lib/util/className'
+import cls from '../../util/className'
 import nanoid from 'nanoid'
 // import Color from 'tinycolor2'
 
-import Tooltip from '~/lib/_subcomponents/Tooltip'
+import Tooltip from '../../_subcomponents/Tooltip'
 
 
 //------------------------------------------------------------------------------

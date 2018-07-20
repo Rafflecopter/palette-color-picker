@@ -1,9 +1,9 @@
-import '~/lib/style/reset.scss'
+import '../lib/style/reset.scss'
 
 import React from 'react'
 import { render } from 'react-dom'
-import { ColorPicker } from '~/lib'
-import { SwatchList } from '~/lib/_subcomponents/color/swatches'
+import { ColorPicker } from '../lib'
+import { SwatchList } from '../lib/_subcomponents/color/swatches'
 
 interface Props { }
 

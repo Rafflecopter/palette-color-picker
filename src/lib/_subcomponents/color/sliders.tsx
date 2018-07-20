@@ -1,12 +1,12 @@
 import './sliders.scss'
 import * as React from 'react'
-import cls from '~/lib/util/className'
+import cls from '../../util/className'
 
 import Color from 'tinycolor2'
 
-import Range from '~/lib/_subcomponents/inputs/range'
+import Range from '../../_subcomponents/inputs/range'
 
-import { ColorMode } from '~/lib'
+import { ColorMode } from '../../'
 
 
 //------------------------------------------------------------------------------

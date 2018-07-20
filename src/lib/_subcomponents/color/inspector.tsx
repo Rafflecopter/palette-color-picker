@@ -1,6 +1,6 @@
 import './inspector.scss'
 import * as React from 'react'
-import cls from '~/lib/util/className'
+import cls from '../../util/className'
 
 import Color from 'tinycolor2'
 

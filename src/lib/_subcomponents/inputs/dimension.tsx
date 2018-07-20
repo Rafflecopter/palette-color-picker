@@ -1,6 +1,6 @@
 import './dimension.scss'
 import * as React from 'react'
-import cls from '~/lib/util/className'
+import cls from '../../util/className'
 import Key from 'mousetrap'
 import nanoid from 'nanoid'
 
