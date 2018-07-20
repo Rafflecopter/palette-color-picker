@@ -10,7 +10,8 @@ module.exports = merge(common, {
     inline: true,
     hot: true,
 
-    contentBase: path.join(__dirname, 'static')
+    contentBase: path.join(__dirname, 'static'),
+    stats: 'minimal'
   },
 
   devtool: 'inline-cheap-module-source-map',

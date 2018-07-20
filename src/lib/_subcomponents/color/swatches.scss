@@ -1,0 +1,31 @@
+@import "~/lib/style/base.scss";
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+.ColorSwatches {
+  &-color {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+    border-radius: 2px;
+
+    &:hover {
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0, 0.25);
+    }
+  }
+
+  &-label {
+    display: block;
+    padding-bottom: $ColorEditor-pad * 0.5;
+    text-align: left;
+    font-size: 11px;
+  }
+
+  &-vars {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}

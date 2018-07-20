@@ -11,18 +11,18 @@ const keysXForm = require('ts-transformer-keys/transformer').default
 const withPath = (...p) => (...sub) => path.join(__dirname, ...p, ...sub)
 const SRC = withPath('src')
 const STATIC = withPath('static')
-const DIST = withPath('dist')
+const DOCS = withPath('docs')
 
 
 // Config
 
 module.exports = {
 
-  entry: SRC('/index.tsx'),
+  entry: SRC('docs'),
 
   output: {
-    filename: 'app.js',
-    path: DIST()
+    path: DOCS(),
+    filename: 'app.js'
   },
 
   resolve: {
@@ -77,21 +77,18 @@ module.exports = {
           ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [{
-              loader: 'css-loader',
-              options: { sourceMap: true }
+              loader: 'css-loader'
             },
             {
               loader: 'postcss-loader',
               options: {
-                sourceMap: true,
                 plugins: (loader) => [
                   require('autoprefixer')
                 ]
               }
             },
             {
-              loader: 'sass-loader',
-              options: { sourceMap: true }
+              loader: 'sass-loader'
             }]
           })
         )
@@ -105,7 +102,7 @@ module.exports = {
 
     new HtmlWebpackPlugin({
       title: 'Palette Color Picker',
-      template: SRC('index.html')
+      template: SRC('docs/index.html')
     }),
   ]
 
