@@ -13,7 +13,7 @@ import { ColorSwatches } from './_subcomponents/color/swatches'
 const ColorMode = 'hex' | 'hex8' | 'rgb' | 'hsl'
 
 const Props = {
-  defaultColorValue: PropTypes.string,
+  value: PropTypes.string.isRequired,
   modes: PropTypes.array,
   mode: PropTypes.object,
   disabled: PropTypes.bool,
@@ -36,7 +36,7 @@ class ColorPicker extends React.Component {
     this.modes = this.props.modes || ['hex', 'rgb', 'hsl']
 
     this.state = {
-      color: new Color(this.props.defaultColorValue || 'red'),
+      color: new Color(this.props.value || 'red'),
       mode: this.props.mode || 'rgb',
       export: ''
     }

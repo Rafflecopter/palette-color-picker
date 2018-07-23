@@ -54,7 +54,7 @@ class Demo extends React.Component {
     
     return (
       <div style={{ width: '250px', margin: '50px', padding: '20px', border: '1px solid gainsboro' }}>
-        <ColorPicker defaultColorValue={this.state.colorString} swatches={swatches} update={this.updateColor} swatchesLabel={'Some Colors'} />
+        <ColorPicker value={this.state.colorString} swatches={swatches} update={this.updateColor} swatchesLabel={'Some Colors'} />
       </div>
     )
   }

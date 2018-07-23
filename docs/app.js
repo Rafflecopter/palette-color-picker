@@ -729,7 +729,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var ColorMode = 'hex' | 'hex8' | 'rgb' | 'hsl';
 exports.ColorMode = ColorMode;
 var Props = {
-  defaultColorValue: _propTypes.default.string,
+  default: _propTypes.default.string.isRequired,
   modes: _propTypes.default.array,
   mode: _propTypes.default.object,
   disabled: _propTypes.default.bool,
@@ -797,7 +797,7 @@ function (_React$Component) {
 
     _this.modes = _this.props.modes || ['hex', 'rgb', 'hsl'];
     _this.state = {
-      color: new _tinycolor.default(_this.props.defaultColorValue || 'red'),
+      color: new _tinycolor.default(_this.props.default || 'red'),
       mode: _this.props.mode || 'rgb',
       export: ''
     };
@@ -3485,7 +3485,7 @@ function (_React$Component) {
           border: '1px solid gainsboro'
         }
       }, _react.default.createElement(_lib.ColorPicker, {
-        defaultColorValue: this.state.colorString,
+        default: this.state.colorString,
         swatches: swatches,
         update: this.updateColor,
         swatchesLabel: 'Some Colors'
@@ -3504,7 +3504,7 @@ function (_React$Component) {
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305138
+      // 1532380817780
       var cssReload = require("!../../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -22983,7 +22983,7 @@ module.exports = camelize;
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305173
+      // 1532380817818
       var cssReload = require("!../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -23777,7 +23777,7 @@ ColorInspector.propTypes = Props;
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305337
+      // 1532380818043
       var cssReload = require("!../../../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -23926,7 +23926,7 @@ ColorSliders.propTypes = Props;
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305363
+      // 1532380818023
       var cssReload = require("!../../../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -24118,7 +24118,7 @@ Range.propTypes = Props;
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305278
+      // 1532380817953
       var cssReload = require("!../../../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -24362,7 +24362,7 @@ ColorValues.propTypes = Props;
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305256
+      // 1532380817912
       var cssReload = require("!../../../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -24556,7 +24556,7 @@ Dimension.propTypes = Props;
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305313
+      // 1532380817996
       var cssReload = require("!../../../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -24803,7 +24803,7 @@ Text.propTypes = Props;
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305229
+      // 1532380817942
       var cssReload = require("!../../../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -28155,7 +28155,7 @@ ColorSwatches.propTypes = Props;
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305241
+      // 1532380817892
       var cssReload = require("!../../../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
@@ -28253,7 +28253,7 @@ Tooltip.propTypes = Props;
 
 // removed by extract-text-webpack-plugin
     if(false) {
-      // 1532378305210
+      // 1532380817872
       var cssReload = require("!../../../node_modules/css-hot-loader/hotModuleReplacement.js")(module.id, {"fileMap":"{fileName}"});
       module.hot.dispose(cssReload);
       module.hot.accept(undefined, cssReload);
