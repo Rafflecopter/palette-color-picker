@@ -1,10 +1,9 @@
-<div align="center">
-<span style="font-size:72px;line-height:1;">🎨</span>
- <br>
- <h3>@palette/color-picker</h3>
- <p>A hackable React color picker that exposes all the right things</p>
- <br>
-</div>
+
+# 🎨 @palette/color-picker
+A hackable React color picker that exposes all the right things
+
+
+---
 
 
 ### Why another color picker?
@@ -36,57 +35,63 @@ import ColorPicker from '@palette/color-picker'
 <ColorPicker value={'#FF0'} />
 ```
 
+---
+
 ## Component Configuration with Props
 #### `showInspector`
-| Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
+| Type     | Required? | Default   |
+| -------  | :-------: | :-------: |
 | `string` |  **YES**  |  `red`  |
+
 The initial rendered color for your component & the only required
 Should be a string containing a valid color (rgb(a), hex(8), hsl(a), hsv)
 
 
 #### `modes`
-| Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
-| `array` |  N  |  `['hex', 'hex8', 'rgb', 'hsl']`  |
+| Type   | Required?  | Default   |
+| ------  | :-------: | :-------: |
+| `array` |  N        |  `['hex', 'hex8', 'rgb', 'hsl']`  |
+
 An array of color formats to accept
 
 #### `mode`
-| Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
-| `string` |  N  |  color mode of `defaultValue`  |
+| Type     | Required? | Default   |
+| ------   | :-------: | :-------: |
+| `string` |  N        |  color mode of `defaultValue`  |
 The mode with which to initialize the picker.
 
 #### `update`
-| Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
+| Type            | Required? | Default   |
+| --------------- | :-------: | :-------: |
 | `function(evt)` |  N  | none  |
 
 A function to which the picker will return a color on updates.<br />
 `evt` is the color in the prescribed mode.
 
 
-<br />
 ---
-<br />
+
 ### Subcomponent Configuration with Props
 #### `showInspector`
 | Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
+|------  | :-------: | :-------: |
 | `bool` |     N     |    true   |
+
 Chooses whether to show the Color Inspector (eyedropper) subcomponent
 
 
 #### `showSliders`
 | Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
+|------- | :-------: | :-------: |
 | `bool` |     N     |    true   |
+
 Chooses whether to show the Color Range Sliders (hue & opacity)
 
 #### `showValues`
 | Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
+|------- | :-------: | :-------: |
 | `bool` |     N     |    true   |
+
 Chooses whether to show the Color Value Editor subcomponent
 
 
@@ -94,14 +99,16 @@ Chooses whether to show the Color Value Editor subcomponent
 
 #### `showSwatches`
 | Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
+|------- | :-------: | :-------: |
 | `bool` |     N     |    true   |
+
 Chooses whether to show the Color Swatch subcomponent
 
 #### `swatches`
-| Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
+| Type       | Required? | Default   |
+|----        | :-------: | :-------: |
 | `object[]` |     N     |    true   |
+
 Prescribe the default swatches that are shown in the color picker like:
 
 ```js
@@ -113,13 +120,15 @@ Prescribe the default swatches that are shown in the color picker like:
 ```
 
 #### `swatchesLabel`
-| Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
-| `string` |     N   | '' |
+| Type     | Required? | Default   |
+| -------  | :-------: | :-------: |
+| `string` |     N     | ''        |
+
 Provide a label to describe your swatches
 
 #### `swatchesTooltip`
 | Type   | Required? | Default   |
-|:----:  | :-------: | :-------: |
-| `bool` |     N   | true |
+| -----  | :-------: | :-------: |
+| `bool` |     N     |  true     |
+
 Chooses whether to show a tooltip revealing a color's name of swatch hover
