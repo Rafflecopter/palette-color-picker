@@ -1,6 +1,5 @@
 import './text.scss'
 import * as React from 'react'
-import cls from '../../util/className'
 import Key from 'mousetrap'
 import nanoid from 'nanoid'
 
@@ -9,29 +8,27 @@ import valueParser from 'postcss-value-parser'
 import parseCssDimension from 'parse-css-dimension'
 
 
+import PropTypes from 'prop-types'
+
+
 //------------------------------------------------------------------------------
 // Props
 
-interface Props {
-  value?: string,
-  label?: string,
-  prefix?: string,
-  units?: string,
-  fallbackUnits?: string,
-  disabled?: boolean,
-  update?: Function
-}
-
-interface State {
-  value: string
-  cursorPosition: number
+const Props = {
+  value: PropTypes.string,
+  label: PropTypes.string,
+  units: PropTypes.string,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  step: PropTypes.number,
+  disabled: PropTypes.bool,
+  update: PropTypes.func
 }
 
 //------------------------------------------------------------------------------
 
 export default
-  class Text extends React.Component<Props, State> {
-  elem: HTMLElement | null
+  class Text extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -41,7 +38,7 @@ export default
   }
 
   componentDidMount() {
-    const key = new Key(this.elem!)
+    const key = new Key(this.elem)
     key.bind('up', () => {
       this.nudgeValues(event, 1)
       return false
@@ -72,16 +69,15 @@ export default
 
   render() {
     const mods = {
-      'is-disabled': this.props.disabled,
-      'has-prefix': this.props.prefix ? true : false
+      'is-disabled': this.props.disabled
     }
 
     return (
-      <label className={cls(this, mods)}
+      <label className={`Text ${this.props.prefix ? 'Text--has-prefix' : null}`}
         ref={node => this.elem = node}>
-        <div className={cls(this, 'input')}>
+        <div className={'Text-input'}>
           {this.props.prefix &&
-            <div className={cls(this, 'prefix')}>
+            <div className={'Text-prefix'}>
               {this.props.prefix}
             </div>
           }
@@ -92,12 +88,12 @@ export default
             disabled={this.props.disabled}
             value={this.state.value} />
           {this.props.units &&
-            <span className={cls(this, 'units')}>{this.props.units}</span>
+            <span className={'Text-units'}>{this.props.units}</span>
           }
         </div>
 
         {this.props.label &&
-          <span className={cls(this, 'label')}>{this.props.label}</span>}
+          <span className={'Text-label'}>{this.props.label}</span>}
       </label>
     )
   }
@@ -115,7 +111,7 @@ export default
     this.props.update ? this.props.update(this.state.value) : null
   }
 
-  nudgeValues = (evt, nudge: number) => {
+  nudgeValues = (evt, nudge) => {
     const vals = this.getParsedValues(this.state.value)
     const selectedValue = this.getSelectedValue(evt, vals)
 
@@ -143,7 +139,7 @@ export default
 
   getParsedValues = (values) => {
     const parsedValue = valueParser(values)
-    let valStore: Object[] = []
+    let valStore = []
 
     parsedValue.nodes.forEach(node => {
       valStore.push(node)
@@ -174,3 +170,5 @@ export default
     return valStore
   }
 }
+
+Text.propTypes = Props

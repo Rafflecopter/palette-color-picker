@@ -1,33 +1,30 @@
 import './range.scss'
 import * as React from 'react'
-import cls from '../../util/className'
 import Key from 'mousetrap'
 import nanoid from 'nanoid'
+
+import PropTypes from 'prop-types'
 
 
 //------------------------------------------------------------------------------
 // Props
 
-interface Props {
-  value?: string,
-  label?: string,
-  units?: string,
-  min?: number,
-  max?: number,
-  step?: number
-  disabled?: boolean,
-  update?: Function,
-}
-
-interface State {
-  value: string
+const Props = {
+  value: PropTypes.string,
+  label: PropTypes.string,
+  units: PropTypes.string,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  step: PropTypes.number,
+  disabled: PropTypes.bool,
+  update: PropTypes.func
 }
 
 //------------------------------------------------------------------------------
 
 export default
-class Range extends React.Component<Props, State> {
-  elem: HTMLElement | null
+class Range extends React.Component {
+
   constructor(props) {
     super(props)
     this.state = {
@@ -36,7 +33,7 @@ class Range extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const key = new Key(this.elem!)
+    const key = new Key(this.elem)
     const step = this.props.step || 1
     key.bind(['up', 'right'], () => {this.nudgeValue(1); return false})
     key.bind(['down', 'left'], () => {this.nudgeValue(-1); return false})
@@ -61,9 +58,9 @@ class Range extends React.Component<Props, State> {
     }
 
     return (
-      <label className={cls(this, mods)}
+      <label className={'Range'}
         ref={node => this.elem = node}>
-        <span className={cls(this, 'input')}>
+        <span className={'Range-input'}>
           <input type='range'
             id={nanoid()}
             onChange={this.onUpdate}
@@ -74,12 +71,12 @@ class Range extends React.Component<Props, State> {
             max={this.props.max ? this.props.max : undefined}
             value={this.state.value} />
           {this.props.units &&
-            <span className={cls(this, 'units')}>{this.props.units}</span>
+            <span className={'Range-units'}>{this.props.units}</span>
           }
         </span>
 
         {this.props.label &&
-          <span className={cls(this, 'label')}>{this.props.label}</span>}
+          <span className={'Range-label'}>{this.props.label}</span>}
       </label>
     )
   }
@@ -88,7 +85,7 @@ class Range extends React.Component<Props, State> {
     this.props.update ? this.props.update(e.target.value) : null
   }
 
-  nudgeValue = (increment: number) => {
+  nudgeValue = (increment) => {
     let newVal = Number(this.state.value) + increment
     const units = this.props.units ? this.props.units : ''
 
@@ -105,3 +102,6 @@ class Range extends React.Component<Props, State> {
     this.props.update ? this.props.update(this.state.value + units) : null
   }
 }
+
+
+Range.propTypes = Props

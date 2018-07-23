@@ -1,9 +1,9 @@
-@import "~/lib/style/base.scss";
+@import "../../style/base.scss";
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-.ColorSliders {
+.ColorSliders {  
   &-sliders {
     display: flex;
     flex-direction: column;

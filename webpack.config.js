@@ -1,68 +1,35 @@
-/* eslint-disable */
-
-const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const keysXForm = require('ts-transformer-keys/transformer').default
-
 
 // Path Helpers
 const withPath = (...p) => (...sub) => path.join(__dirname, ...p, ...sub)
-const SRC = withPath('src')
 const STATIC = withPath('static')
+const SRC = withPath('src')
 const DOCS = withPath('docs')
 
-
-// Config
-
 module.exports = {
-
   entry: SRC('docs'),
 
   output: {
     path: DOCS(),
     filename: 'app.js'
   },
-
   resolve: {
-    extensions: ['.ts', '.tsx', '.json', '.js'],
     alias: {
-      '~': SRC(),               // general convenience
-      '#': SRC('/style'),       // main sass import
-      '@': SRC('/components')   // main tsx import
+      '~': SRC(),         // general convenience
+      '@': SRC('/lib')    // main component import
     }
   },
-
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.tsx?/,
-        include: SRC(),
-        loader: [ 'awesome-typescript-loader' ]
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+        exclude: /node_modules/
       },
       {
-        test: /\.js$/,
-        loader: "source-map-loader",
-      },
-      {
-        test: /\.(jpg|png|gif)(\?.+)?$/,
-        loader: 'url-loader?limit=100000',
-        include: STATIC('img')
-      },
-      {
-        test: /\.svg$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              outputPath: 'svg/'
-            }
-          }
-        ]
-      },
-      {
-        test: /(\.scss|\.css|\.png)$/,
+        test: /(\.scss|\.css)$/,
         use: ['css-hot-loader'].concat(
           ExtractTextPlugin.extract({
             fallback: 'style-loader',
@@ -83,17 +50,26 @@ module.exports = {
           })
         )
       }
-    ],
+    ]
   },
-
   plugins: [
-
     new ExtractTextPlugin({ filename: 'picker.css' }),
 
     new HtmlWebpackPlugin({
       title: 'Palette Color Picker',
       template: SRC('docs/index.html')
     }),
-  ]
+  ],
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
 
+  devServer: {
+    historyApiFallback: true,
+    inline: true,
+    hot: true,
+    contentBase: DOCS(),
+    port: 8000,
+    stats: 'minimal'
+  }
 }

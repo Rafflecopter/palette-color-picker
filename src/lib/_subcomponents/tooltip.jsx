@@ -1,33 +1,28 @@
 import './tooltip.scss'
 import * as React from 'react'
-import cls from '../util/className'
 
+import PropTypes from 'prop-types'
 
 //------------------------------------------------------------------------------
-// Types
+// Props
 
-interface Props {
-  label: string
-  placement?: 'top' | 'right' | 'bottom' | 'left'
-  length?: 'micro' | 'small' | 'medium' | 'large' | 'xlarge' | 'fit'
-  align?: 'left' | 'center' | 'right'
-  expiring?: boolean
+const Props = {
+  label: PropTypes.string.isRequired,
+  placement: PropTypes.string, // 'top' | 'right' | 'bottom' | 'left'
+  length: PropTypes.string, // 'micro' | 'small' | 'medium' | 'large' | 'xlarge' | 'fit'
+  align: PropTypes.string, // 'left' | 'center' | 'right'
+  expiring: PropTypes.bool
 }
-
 
 //------------------------------------------------------------------------------
 // Components
 
 export default
-class Tooltip extends React.Component<Props> {
+class Tooltip extends React.Component {
 
   render() {
-    const mods = {
-      'expiring': this.props.expiring || false
-    }
-
     return (
-      <div className={cls(this, mods)}
+      <div className={`Tooltip ${this.props.expiring ? 'Tooltip--expiring' : null}`}
         data-tooltip={this.props.label}
         data-tooltip-pos={this.props.placement || 'top'}
         data-tooltip-length={this.props.length || 'fit'}
@@ -38,3 +33,4 @@ class Tooltip extends React.Component<Props> {
   }
 }
 
+Tooltip.propTypes = Props

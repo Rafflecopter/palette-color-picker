@@ -1,43 +1,36 @@
 import './values.scss'
 import * as React from 'react'
-import cls from '~/lib/util/className'
-
+import PropTypes from 'prop-types'
 import Color from 'tinycolor2'
 
-import Dimension from '~/lib/_subcomponents/inputs/dimension'
-import Text from '~/lib/_subcomponents/inputs/text'
-import Icon from '~/lib/_subcomponents/Icon'
+import Dimension from '../inputs/dimension'
+import Text from '../inputs/text'
 
-import {ColorMode} from '~/lib'
-
-
+import { ColorMode } from '../../'
 
 //------------------------------------------------------------------------------
 // Props
 
-interface Props {
-  color: Color
-  mode: ColorMode
-  modes: ColorMode[]
-  update?: Function
+const Props = {
+  color: PropTypes.object, // color: Color
+  mode: PropTypes.string, // ColorMode
+  modes: PropTypes.array,   // ColorMode[]
+  update: PropTypes.func
 }
 
 //------------------------------------------------------------------------------
 
 export default
-class ColorValues extends React.Component<Props> {
+class ColorValues extends React.Component {
 
   render() {
-    const mods = { mode: this.props.mode.toString() }
-
     return (
       <React.Fragment>
-        <div className={cls(this, 'inputs', mods)}>
+        <div className={`ColorValues-inputs ${this.props.mode ? 'ColorValues-inputs--mode-' + this.props.mode : ''}`}>
           {this.renderInputs(this.props.mode)}
         </div>
-        <div className={cls(this, 'mode')}
-          onClick={this.changeMode}>
-          <Icon name='resize-vertical' />
+        <div className={'ColorValues-mode'}
+          onClick={this.changeMode}>↕
         </div>
       </React.Fragment>
     )
@@ -100,8 +93,7 @@ class ColorValues extends React.Component<Props> {
   }
 
   changeMode = (evt) => {
-
-    let newMode: ColorMode
+    let newMode
     const i = this.props.modes.indexOf(this.props.mode)
 
     if ((i > -1) && (i < this.props.modes.length - 1)) {
@@ -113,3 +105,6 @@ class ColorValues extends React.Component<Props> {
     this.props.update ? this.props.update(this.props.color, newMode) : null
   }
 }
+
+
+ColorValues.propTypes = Props

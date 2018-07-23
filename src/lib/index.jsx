@@ -1,49 +1,36 @@
 import './picker.scss'
 import * as React from 'react'
-import cls from './util/className'
 import Color from 'tinycolor2'
+import PropTypes from 'prop-types'
 
 import ColorInspector from './_subcomponents/color/inspector'
 import ColorSliders from './_subcomponents/color/sliders'
 import ColorValues from './_subcomponents/color/values'
-import { SwatchList, ColorSwatches } from './_subcomponents/color/swatches'
-
-
-//------------------------------------------------------------------------------
-// Props
-
-interface Props {
-  defaultColorValue?: string
-  modes?: ColorMode[]
-  mode?: ColorMode
-  disabled?: boolean
-  update?: Function
-
-  showInspector?: boolean
-  showSliders?: boolean
-  showValues?: boolean
-
-  showSwatches?: boolean
-  swatches?: SwatchList
-  swatchesLabel?: string
-  swatchesTooltip?: boolean
-}
-
-interface State {
-  color: Color
-  mode: ColorMode
-  export: string
-}
-
-
-export type ColorMode = 'hex' | 'hex8' | 'rgb' | 'hsl'
+import { ColorSwatches } from './_subcomponents/color/swatches'
 
 //------------------------------------------------------------------------------
 
-export
-  class ColorPicker extends React.Component<Props, State> {
-  modes: ColorMode[]
+const ColorMode = 'hex' | 'hex8' | 'rgb' | 'hsl'
 
+const Props = {
+  defaultColorValue: PropTypes.string,
+  modes: PropTypes.array,
+  mode: PropTypes.object,
+  disabled: PropTypes.bool,
+  update: PropTypes.func,
+
+  showInspector: PropTypes.bool,
+  showSliders: PropTypes.bool,
+  showValues: PropTypes.bool,
+
+  showSwatches: PropTypes.bool,
+  swatches: PropTypes.array, //PropTypes.SwatchList,
+  swatchesLabel: PropTypes.string,
+  swatchesTooltip: PropTypes.bool
+}
+
+
+class ColorPicker extends React.Component {
   constructor(props) {
     super(props)
     this.modes = this.props.modes || ['hex', 'rgb', 'hsl']
@@ -71,30 +58,26 @@ export
   }
 
   render() {
-    const mods = {
-      'isLight': this.state.color.isLight(),
-      'isDark': this.state.color.isDark()
-    }
 
     return (
-      <div className={cls(this, mods)}>
+      <div className='ColorPicker'>
         {this.props.showInspector !== false &&
-          <div className={cls(this, 'board')}>
+          <div className={'ColorPicker-board'}>
             <ColorInspector color={this.state.color} update={this.onChange} />
           </div>
         }
         {this.props.showSliders !== false &&
-          <div className={cls(this, 'sliders')}>
+          <div className={'ColorPicker-sliders'}>
             <ColorSliders color={this.state.color} modes={this.modes} mode={this.state.mode} update={this.onChange} />
           </div>
         }
         {this.props.showValues !== false &&
-          <div className={cls(this, 'values')}>
+          <div className={'ColorPicker-values'}>
             <ColorValues color={this.state.color} modes={this.modes} mode={this.state.mode} update={this.onChange} />
           </div>
         }
         {this.props.showSwatches !== false && this.props.swatches &&
-          <div className={cls(this, 'swatches')}>
+          <div className={'ColorPicker-swatches'}>
             <ColorSwatches swatches={this.props.swatches} tooltips={this.props.swatchesTooltip} label={this.props.swatchesLabel} update={this.onChange} />
           </div>
         }
@@ -102,7 +85,7 @@ export
     )
   }
 
-  onChange = (color, mode?) => {
+  onChange = (color, mode) => {
     color = typeof color !== Color ? Color(color) : null
     mode = mode ? mode : this.state.mode
 
@@ -131,3 +114,7 @@ export
     this.setState({ export: exp() })
   }
 }
+
+ColorPicker.propTypes = Props
+
+export { ColorPicker, ColorMode }

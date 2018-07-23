@@ -1,36 +1,21 @@
 import './inspector.scss'
 import * as React from 'react'
-import cls from '../../util/className'
-
+import PropTypes from 'prop-types'
 import Color from 'tinycolor2'
 
 
 //------------------------------------------------------------------------------
 // Props
 
-interface Props {
-  color: Color
-  update?: Function
-}
-
-interface State {
-  top: any
-  left: any,
-  alpha: string,
-  hsv: {
-    h: string
-    s: number
-    v: number
-  }
+const Props = {
+  color: PropTypes.object.isRequired,
+  update: PropTypes.func
 }
 
 //------------------------------------------------------------------------------
 
 export default
-class ColorInspector extends React.Component<Props, State> {
-  elem: HTMLElement | null
-  rect: DOMRect | ClientRect
-
+class ColorInspector extends React.Component {
 
   constructor(props) {
     super(props)
@@ -55,16 +40,16 @@ class ColorInspector extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className={cls(this)}
+      <div className={'ColorInspector'}
         ref={node => this.elem = node}
         onMouseDown={this.pickerStart}>
-        <div className={cls(this, 'hue')}
+        <div className={'ColorInspector-hue'}
           style={{ background: `hsla(${this.state.hsv.h}, 100%, 50%, 1)` }}>
-          <div className={cls(this, 'saturation')} />
-          <div className={cls(this, 'value')} />
+          <div className={'ColorInspector-saturation'} />
+          <div className={'ColorInspector-value'} />
         </div>
         <span></span>
-        <div className={cls(this, 'handler')}
+        <div className={'ColorInspector-handler'}
           style={{ top: `${this.state.top}%`, left: `${this.state.left}%` }}>
         </div>
       </div>
@@ -74,7 +59,7 @@ class ColorInspector extends React.Component<Props, State> {
   pickerStart = (event) => {
     document.addEventListener('mousemove', this.pickerMove)
     document.addEventListener('mouseup', this.pickerEnd)
-    this.rect = this.elem!.getBoundingClientRect()
+    this.rect = this.elem.getBoundingClientRect()
 
     const top = Math.max(Math.min(event.pageY - this.rect.top, 150), 0) / 1.5
     const left = Math.max(Math.min(event.pageX - this.rect.left, 200), 0) / 2
@@ -95,7 +80,7 @@ class ColorInspector extends React.Component<Props, State> {
     document.removeEventListener('mouseup', this.pickerEnd)
   }
 
-  onChange = (top: number, left: number) => {
+  onChange = (top, left) => {
     // hsv calcs here are easier, but hsl lets us maintain alpha
     const newHsv = { h: this.state.hsv.h, s: left / 100, v: 1 - (top / 100) }
     const newColor = Color(newHsv).setAlpha(this.state.alpha).toHsl()
@@ -103,3 +88,5 @@ class ColorInspector extends React.Component<Props, State> {
     this.props.update ? this.props.update(newColor) : null
   }
 }
+
+ColorInspector.propTypes = Props

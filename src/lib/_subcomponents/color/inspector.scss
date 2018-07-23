@@ -1,4 +1,4 @@
-@import "~/lib/style/base.scss";
+@import "../../style/base.scss";
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
@@ -11,6 +11,8 @@
   border-radius: 2px;
   overflow: hidden;
   user-select: none;
+
+  background: gainsboro;
 
   &:hover {
     cursor: crosshair;

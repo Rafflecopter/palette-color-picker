@@ -1,33 +1,29 @@
 import './dimension.scss'
 import * as React from 'react'
-import cls from '../../util/className'
 import Key from 'mousetrap'
 import nanoid from 'nanoid'
+
+import PropTypes from 'prop-types'
 
 
 //------------------------------------------------------------------------------
 // Props
 
-interface Props {
-  value?: string
-  label?: string
-  units?: string
-  min?: number
-  max?: number
-  step?: number
-  disabled?: boolean
-  update?: Function
-}
-
-interface State {
-  value: string
+const Props = {
+  value: PropTypes.string,
+  label: PropTypes.string,
+  units: PropTypes.string,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  step: PropTypes.number,
+  disabled: PropTypes.bool,
+  update: PropTypes.func
 }
 
 //------------------------------------------------------------------------------
 
 export default
-class Dimension extends React.Component<Props, State> {
-  elem: HTMLElement | null
+class Dimension extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -46,7 +42,7 @@ class Dimension extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const key = new Key(this.elem!)
+    const key = new Key(this.elem)
     const step = this.props.step || 1
     
     key.bind('up', () => {this.nudgeValue(step); return false})
@@ -62,9 +58,9 @@ class Dimension extends React.Component<Props, State> {
     }
 
     return (
-      <label className={cls(this, mods)}
+      <label className={`Dimension ${this.props.disabled ? 'Dimension--is-disabled' : null}`}
         ref={node => this.elem = node}>
-        <span className={cls(this, 'input')}>
+        <span className={'Dimension-input'}>
           <input type='number'
             id={id}
             onChange={this.handleChange}
@@ -75,12 +71,12 @@ class Dimension extends React.Component<Props, State> {
             max={this.props.max ? this.props.max : undefined}
             value={this.state.value} />
           {this.props.units &&
-            <span className={cls(this, 'units')}>{this.props.units}</span>
+            <span className={'Dimension-units'}>{this.props.units}</span>
           }
         </span>
 
         {this.props.label &&
-          <span className={cls(this, 'label')}>{this.props.label}</span>}
+          <span className={'Dimension-label'}>{this.props.label}</span>}
       </label>
     )
   }
@@ -91,7 +87,7 @@ class Dimension extends React.Component<Props, State> {
     this.props.update ? this.props.update(e.target.value + units) : null
   }
 
-  nudgeValue = (increment: number) => {
+  nudgeValue = (increment) => {
     let newVal = Number(this.state.value) + increment
     const units = this.props.units ? this.props.units : ''
 
@@ -108,3 +104,5 @@ class Dimension extends React.Component<Props, State> {
     this.props.update ? this.props.update(this.state.value + units) : null
   }
 }
+
+Dimension.propTypes = Props
