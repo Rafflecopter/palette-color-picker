@@ -1,6 +1,5 @@
 import './range.scss'
 import * as React from 'react'
-import Key from 'mousetrap'
 import nanoid from 'nanoid'
 
 import PropTypes from 'prop-types'
@@ -30,15 +29,6 @@ class Range extends React.Component {
     this.state = {
       value: this.props.value || '',
     }
-  }
-
-  componentDidMount() {
-    const key = new Key(this.elem)
-    const step = this.props.step || 1
-    key.bind(['up', 'right'], () => {this.nudgeValue(1); return false})
-    key.bind(['down', 'left'], () => {this.nudgeValue(-1); return false})
-    key.bind(['shift+up', 'shift+right'], () => {this.nudgeValue(10); return false})
-    key.bind(['shift+down', 'shift+left'], () => {this.nudgeValue(-10); return false})
   }
 
   static getDerivedStateFromProps(props, state) {

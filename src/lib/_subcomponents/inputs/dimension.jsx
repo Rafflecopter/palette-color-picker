@@ -1,6 +1,5 @@
 import './dimension.scss'
 import * as React from 'react'
-import Key from 'mousetrap'
 import nanoid from 'nanoid'
 
 import PropTypes from 'prop-types'
@@ -41,18 +40,7 @@ class Dimension extends React.Component {
     return null
   }
 
-  componentDidMount() {
-    const key = new Key(this.elem)
-    const step = this.props.step || 1
-    
-    key.bind('up', () => {this.nudgeValue(step); return false})
-    key.bind('down', () => {this.nudgeValue(-step); return false})
-    key.bind('shift+up', () => {this.nudgeValue(step * 10); return false})
-    key.bind('shift+down', () => {this.nudgeValue(step * -10); return false})
-  }
-
   render() {
-    const id = nanoid()
     const mods = {
       'is-disabled': this.props.disabled
     }
@@ -62,7 +50,7 @@ class Dimension extends React.Component {
         ref={node => this.elem = node}>
         <span className={'Dimension-input'}>
           <input type='number'
-            id={id}
+            id={nanoid()}
             onChange={this.handleChange}
             onBlur={this.handleChange}
             disabled={this.props.disabled}

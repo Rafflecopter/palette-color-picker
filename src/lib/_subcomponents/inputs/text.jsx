@@ -1,8 +1,6 @@
 import './text.scss'
 import * as React from 'react'
-import Key from 'mousetrap'
 import nanoid from 'nanoid'
-
 
 import valueParser from 'postcss-value-parser'
 import parseCssDimension from 'parse-css-dimension'
@@ -37,26 +35,6 @@ export default
     }
   }
 
-  componentDidMount() {
-    const key = new Key(this.elem)
-    key.bind('up', () => {
-      this.nudgeValues(event, 1)
-      return false
-    })
-    key.bind('shift+up', () => {
-      this.nudgeValues(event, 10)
-      return false
-    })
-    key.bind('down', () => {
-      this.nudgeValues(event, -1)
-      return false
-    })
-    key.bind('shift+down', () => {
-      this.nudgeValues(event, -10)
-      return false
-    })
-  }
-
   static getDerivedStateFromProps(props, state) {
     if (props.value !== state.value) {
       return {
@@ -73,7 +51,7 @@ export default
     }
 
     return (
-      <label className={`Text ${this.props.prefix ? 'Text--has-prefix' : null}`}
+      <label className={`Text ${this.props.prefix ? 'Text--has-prefix' : ''}`}
         ref={node => this.elem = node}>
         <div className={'Text-input'}>
           {this.props.prefix &&
@@ -105,70 +83,9 @@ export default
   }
 
   onBlur = (e) => {
-    const vals = this.getParsedValues(e.target.value)
-
-    // this.setState({ value: vals.value})
     this.props.update ? this.props.update(this.state.value) : null
   }
 
-  nudgeValues = (evt, nudge) => {
-    const vals = this.getParsedValues(this.state.value)
-    const selectedValue = this.getSelectedValue(evt, vals)
-
-    vals[selectedValue]['value'] += nudge
-
-    let newThing = ''
-    vals.forEach(val => newThing += val['value'] + val['units'])
-
-    this.setState({ value: newThing })
-    evt.target.setSelectionRange(vals[selectedValue]['sourceIndex'], vals[selectedValue]['sourceIndex'] + vals[selectedValue]['length'])
-  }
-
-  getSelectedValue = (evt, values) => {
-    const caretPos = evt.target.selectionStart
-    let selectedValue = 0
-
-    for (var i = 0; i < values.length; i++) {
-      if (caretPos >= values[i].sourceIndex && caretPos <= values[i].sourceIndex + values[i].length) {
-        selectedValue = i
-      }
-    }
-
-    return selectedValue
-  }
-
-  getParsedValues = (values) => {
-    const parsedValue = valueParser(values)
-    let valStore = []
-
-    parsedValue.nodes.forEach(node => {
-      valStore.push(node)
-
-      const currentValStore = valStore[valStore.length - 1]
-      currentValStore['units'] = ''
-      currentValStore['selected'] = false
-      currentValStore['length'] = currentValStore['value'].length
-
-      if (node.type == 'word') {
-        const cssDimension = parseCssDimension(node.value)
-        let cssUnit = ''
-
-        if (cssDimension && cssDimension.unit) {
-          cssUnit = cssDimension.unit
-        } else if (this.props.fallbackUnits) {
-          cssUnit = this.props.fallbackUnits
-        }
-
-
-        currentValStore['value'] = cssDimension.value
-        currentValStore['units'] = cssUnit
-      } else {
-
-      }
-    })
-
-    return valStore
-  }
 }
 
 Text.propTypes = Props

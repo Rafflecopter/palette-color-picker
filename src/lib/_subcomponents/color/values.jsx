@@ -1,7 +1,6 @@
 import './values.scss'
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import Color from 'tinycolor2'
 
 import Dimension from '../inputs/dimension'
 import Text from '../inputs/text'

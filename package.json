@@ -46,7 +46,6 @@
     "type": "git"
   },
   "dependencies": {
-    "mousetrap": "^1.6.2",
     "nanoid": "^1.1.0",
     "prop-types": "^15.6.2",
     "tinycolor2": "^1.4.1"
