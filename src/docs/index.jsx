@@ -4,8 +4,6 @@ import React from 'react';
 import { render } from 'react-dom'
 import { ColorPicker } from '../lib'
 
-import Text from '../lib/_subcomponents/inputs/text'
-
 const swatches = [
   {
     name: `$black`,
@@ -53,7 +51,6 @@ class Demo extends React.Component {
     }
   }
   render() {
-
     const previewStyle = {
       width: '19px',
       height: '19px',
@@ -66,7 +63,7 @@ class Demo extends React.Component {
     return (
       <div style={{margin: '50px'}}>
         <div style={{ width: '250px', padding: '20px', border: '1px solid gainsboro' }}>
-          <ColorPicker value={this.state.colorString} swatches={swatches} update={this.updateColor} swatchesLabel={'Some Colors'} />
+          <ColorPicker value={this.state.colorString} swatches={swatches} update={this.updateColor} swatchesLabel={'Project Colors'} swatchesTooltip={false} />
         </div>
         <div style={{margin: '20px 0 5px', fontSize: '11px', fontWeight: 'bold' }}> Returned Color: </div>
         <div style={{ display: 'flex', alignItems: 'center', paddingRight: '10px'}}>

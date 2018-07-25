@@ -6,16 +6,16 @@ import PropTypes from 'prop-types'
 import ColorInspector from './_subcomponents/color/inspector'
 import ColorSliders from './_subcomponents/color/sliders'
 import ColorValues from './_subcomponents/color/values'
-import { ColorSwatches } from './_subcomponents/color/swatches'
+import ColorSwatches from './_subcomponents/color/swatches'
 
 //------------------------------------------------------------------------------
 
-const ColorMode = 'hex' | 'hex8' | 'rgb' | 'hsl'
+const ColorMode = ['hex', 'rgb', 'hsl']
 
 const Props = {
   value: PropTypes.string.isRequired,
-  modes: PropTypes.array,
-  mode: PropTypes.object,
+  modes: PropTypes.arrayOf(PropTypes.oneOf(ColorMode)),
+  mode: PropTypes.oneOf(ColorMode),
   disabled: PropTypes.bool,
   update: PropTypes.func,
 
@@ -33,11 +33,11 @@ const Props = {
 class ColorPicker extends React.Component {
   constructor(props) {
     super(props)
-    this.modes = this.props.modes || ['hex', 'rgb', 'hsl']
+    this.modes = this.props.modes || ColorMode
 
     this.state = {
       color: new Color(this.props.value || 'red'),
-      mode: this.props.mode || 'rgb',
+      mode: this.props.mode || this.modes[0],
       export: ''
     }
   }

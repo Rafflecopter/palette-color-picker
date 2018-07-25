@@ -2,30 +2,30 @@ import './swatches.scss'
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import nanoid from 'nanoid'
-
 import Tooltip from '../Tooltip'
 
 //------------------------------------------------------------------------------
 // Props
 
 const Props = {
-  swatches: PropTypes.array,
+  swatches: PropTypes.arrayOf(
+    PropTypes.exact({
+      name: PropTypes.string,
+      value: PropTypes.string.isRequired,
+      mode: PropTypes.oneOf(['hex', 'rgb', 'hsl'])
+    })
+  ),
   label: PropTypes.string,
   tooltips: PropTypes.bool,
   update: PropTypes.func
 }
 
 
-const ColorSwatch = {
-  name: PropTypes.string, 
-  value: PropTypes.string,
-  mode: PropTypes.string // should be enum: 'hex' | 'rgb' | 'hsl'
-}
-
 //------------------------------------------------------------------------------
 
-export
+export default
 class ColorSwatches extends React.Component {
+
   render() {
     return (
       <React.Fragment>

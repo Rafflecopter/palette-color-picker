@@ -2,7 +2,6 @@ import './sliders.scss'
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import Range from '../inputs/range'
-import { ColorMode } from '../..'
 
 
 //------------------------------------------------------------------------------
@@ -11,7 +10,6 @@ import { ColorMode } from '../..'
 const Props = {
   color: PropTypes.object.isRequired,
   mode: PropTypes.string,
-  modes: PropTypes.array,
   update: PropTypes.func
 }
 
