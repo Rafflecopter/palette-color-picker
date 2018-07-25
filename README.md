@@ -8,11 +8,14 @@ A hackable React color picker that exposes all the right things
 
 ### Why another color picker?
 
-**Multiple Color Formats**<br>
+**Multiple Color Formats**
 This color picker supports rgb(a), hsl(a), and hex(8), and will return a color in the format _you_ (or your user) chooses.
 
-**Mix n match**<br>
+**Mix n match**
 Don't get stuck using a color picker that has a predetermined configuration. Use props to mix and match different color editing components. And they actually all play nicely together.
+
+**Sane (Re)Styling**
+This color picker _does not_ pretend to think it knows exactly how everyone will want it to look. We implement base styles but also maintain sensible classes following [SUIT Methodologies](https://suitcss.github.io/) for easy style overrides.
 
 ## Demo
 
